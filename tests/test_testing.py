@@ -23,11 +23,13 @@ def test_runner():
 
     runner = CliRunner()
     result = runner.invoke(test, input="Hello World!\n")
+    assert result
     assert not result.exception
     assert result.output == "Hello World!\n"
 
     runner = CliRunner(echo_stdin=True)
     result = runner.invoke(test, input="Hello World!\n")
+    assert result
     assert not result.exception
     assert result.output == "Hello World!\nHello World!\n"
 
@@ -46,11 +48,13 @@ def test_runner_with_stream():
 
     runner = CliRunner()
     result = runner.invoke(test, input=BytesIO(b"Hello World!\n"))
+    assert result
     assert not result.exception
     assert result.output == "Hello World!\n"
 
     runner = CliRunner(echo_stdin=True)
     result = runner.invoke(test, input=BytesIO(b"Hello World!\n"))
+    assert result
     assert not result.exception
     assert result.output == "Hello World!\nHello World!\n"
 
@@ -63,6 +67,7 @@ def test_prompts():
 
     runner = CliRunner()
     result = runner.invoke(test, input="wau wau\n")
+    assert result
     assert not result.exception
     assert result.output == "Foo: wau wau\nfoo=wau wau\n"
 
@@ -73,6 +78,7 @@ def test_prompts():
 
     runner = CliRunner()
     result = runner.invoke(test, input="wau wau\n")
+    assert result
     assert not result.exception
     assert result.output == "Foo: \nfoo=wau wau\n"
 
@@ -84,6 +90,7 @@ def test_getchar():
 
     runner = CliRunner()
     result = runner.invoke(continue_it, input="y")
+    assert result
     assert not result.exception
     assert result.output == "y\n"
 
@@ -99,6 +106,7 @@ def test_catch_exceptions():
     runner = CliRunner()
 
     result = runner.invoke(cli)
+    assert not result
     assert isinstance(result.exception, CustomError)
     assert type(result.exc_info) is tuple
     assert len(result.exc_info) == 3
@@ -122,10 +130,12 @@ def test_with_color():
 
     result = runner.invoke(cli)
     assert result.output == "hello world\n"
+    assert result
     assert not result.exception
 
     result = runner.invoke(cli, color=True)
     assert result.output == f"{click.style('hello world', fg='blue')}\n"
+    assert result
     assert not result.exception
 
 
@@ -136,6 +146,7 @@ def test_with_color_but_pause_not_blocking():
 
     runner = CliRunner()
     result = runner.invoke(cli, color=True)
+    assert result
     assert not result.exception
     assert result.output == ""
 
@@ -293,6 +304,7 @@ def test_setting_prog_name_in_extra():
 
     runner = CliRunner()
     result = runner.invoke(cli, prog_name="foobar")
+    assert result
     assert not result.exception
     assert result.output == "ok\n"
 
