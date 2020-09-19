@@ -124,6 +124,9 @@ class Result:
             "\r\n", "\n"
         )
 
+    def __bool__(self):
+        return self.exception is None
+
     def __repr__(self):
         exc_str = repr(self.exception) if self.exception else "okay"
         return f"<{type(self).__name__} {exc_str}>"
